@@ -1,0 +1,4 @@
+-XX:+UseParallelGC
+-XX:GCLogFileSize=64m
+-XX:NumberOfGCLogFiles=4
+-XX:+UseGCLogFileRotation

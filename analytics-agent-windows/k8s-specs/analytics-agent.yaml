@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-agent-windows
+  namespace: appdynamics
+spec:
+  selector:
+    matchLabels:
+      name: analytics-agent-windows
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: analytics-agent-windows
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+        #cloud.google.com/gke-nodepool: windows-pool
+      tolerations:
+      - key: "node.kubernetes.io/os"
+        operator: "Equal"
+        value: "windows"
+        effect: "NoSchedule"
+      containers:
+      - name: analytics-agent-windows
+        envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_NAME
+          value: "environment|component|application"
+        image: docker.io/iogbole/appd_windows_analytics_agent:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9080
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-agent-windows
+  namespace: appdynamics
+spec:
+  selector:
+    name: analytics-agent-windows
+   #type: loadBalancer
+  ports:
+  - name: "9090"
+    port: 9090
+    targetPort: 9080
+    protocol: TCP
+status:
+  loadBalancer: {}

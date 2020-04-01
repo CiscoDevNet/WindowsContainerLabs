@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: analytics-agent-config
+  namespace: appdynamics
+data:
+  AGENT_NAME: "environment|component|application"
+  PROTOCOL: https 
+  CONTROLLER_HOST: "customer1.saas.appdynamics.com"
+  CONTROLLER_PORT: "443" 
+  EVENT_ENDPOINT: "https://fra-ana-api.saas.appdynamics.com:443"
+  ACCOUNT_NAME: customer1
+  GLOBAL_ACCOUNT_NAME: customer_guid
+  ACCESS_KEY: key

@@ -1,6 +1,5 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-#Install My test standalone .Net App
 RUN mkdir "C:/MyConsoleApp"
 COPY MyConsoleApp/  "C:/MyConsoleApp/"
     
