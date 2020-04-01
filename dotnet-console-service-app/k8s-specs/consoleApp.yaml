@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: io-service-checker
+  namespace: appdynamics
+spec:
+  selector:
+    matchLabels:
+      name: io-service-checker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: io-service-checker
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+        #cloud.google.com/gke-nodepool: windows-pool
+      tolerations:
+      - key: "node.kubernetes.io/os"
+        operator: "Equal"
+        value: "windows"
+        effect: "NoSchedule"
+      containers:
+      - name: io-service-checker
+        envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS.AGENT.ACCOUNTACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          value: test-application
+        - name: APPDYNAMICS_AGENT_TIER_NAME
+          value: io-service-checker
+        image: docker.io/iogbole/ioservicechecker:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: io-service-checker
+  namespace: appdynamics
+spec:
+  selector:
+    name: io-service-checker
+   #type: loadBalancer
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 80
+    protocol: TCP
+status:
+  loadBalancer: {}

@@ -1,0 +1,39 @@
+<winston>
+  <logFileDirectory directory="C:\ProgramData\AppDynamics\DotNetAgent\Logs" />
+  <logFileFolderAccessPermissions defaultAccountsEnabled="false">
+    <account name="NT AUTHORITY\LOCAL SERVICE" displayName="LOCAL SERVICE" />
+    <account name="NT AUTHORITY\SYSTEM" displayName="SYSTEM" />
+    <account name="NT AUTHORITY\NETWORK SERVICE" displayName="NETWORK SERVICE" />
+   <account name="IIS_IUSRS" displayName="ApplicationPool Identity" /> 
+  </logFileFolderAccessPermissions>
+  <appdynamics-agent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <controller host="customer.saas.appdynamics.com" port="443" ssl="true"> 
+      <application name="test-application" />
+      <account name="account_name" password="access_key" />
+    </controller>
+    <machine-agent>
+      <!-- The purposed of the config props in the machine-agent node is to reduce overhead in the containerised application 
+        Ref for details - 
+        https://docs.appdynamics.com/display/latest/.NET+Agent+Configuration+Properties#id-.NETAgentConfigurationProperties-MachineAgentElement 
+      -->
+      <process-monitor report-all-iis-processes="false"/>
+      <metrics max-metrics="300">
+        <perf-metrics priority-level="2" />
+      </metrics>
+      </machine-agent>
+    <app-agents>
+      <IIS>
+        <automatic enabled="true" />
+    </IIS>
+      <standalone-applications>
+         <standalone-application executable="IOServiceCheckerApp.exe">
+            <tier name="IOServiceChecker" />
+         </standalone-application>
+       <standalone-application executable="C:\resource-check\DockerOnWindows.ResourceCheck.Console.exe">
+        <tier name="ResourceCheck" />
+     </standalone-application>
+      </standalone-applications>
+    </app-agents>
+  </appdynamics-agent>
+</winston>
+

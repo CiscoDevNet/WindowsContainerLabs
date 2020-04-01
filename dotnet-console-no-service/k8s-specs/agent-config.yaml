@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-config
+  namespace: appdynamics
+data:
+  APPDYNAMICS.AGENT.ACCOUNTNAME: customer1
+  APPDYNAMICS.CONTROLLER.HOSTNAME: "controller-4517nosshco-ixoarnbx.appd-cx.com"
+  APPDYNAMICS.CONTROLLER.PORT: "8090"
+  APPDYNAMICS.CONTROLLER.SSL.ENABLED: "false"
+  APPDYNAMICS_AGENT_REUSE_NODE_NAME: "true"
+  APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX: Node
