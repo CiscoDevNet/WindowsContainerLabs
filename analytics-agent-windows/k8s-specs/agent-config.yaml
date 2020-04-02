@@ -4,10 +4,10 @@ metadata:
   name: analytics-agent-config
   namespace: appdynamics
 data:
-  APPDYNAMICS_PROTOCOL: https 
-  APPDYNAMICS_CONTROLLER_HOST: "customer1.saas.appdynamics.com"
-  APPDYNAMICS_CONTROLLER_PORT: "443" 
-  APPDYNAMICS_EVENTS_API_URL: "https://fra-ana-api.saas.appdynamics.com:443"
+  APPDYNAMICS_PROTOCOL: http
+  APPDYNAMICS_CONTROLLER_HOST: "controller-4517nosshco-ixoarnbx.appd-cx.com"
+  APPDYNAMICS_CONTROLLER_PORT: "8090" 
+  APPDYNAMICS_EVENTS_API_URL: "http://controller-4517nosshco-ixoarnbx.appd-cx.com:9080"
   APPDYNAMICS_ACCOUNT_NAME: customer1
-  APPDYNAMICS_GLOBAL_ACCOUNT_NAME: customer_guid
+  APPDYNAMICS_GLOBAL_ACCOUNT_NAME: customer1_blabla
 

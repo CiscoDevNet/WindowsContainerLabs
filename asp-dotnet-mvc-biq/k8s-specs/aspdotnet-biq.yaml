@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspdotnet-frontend-biq
+  namespace: appdynamics
+spec:
+  selector:
+    matchLabels:
+      name: iis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: iis
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+        #cloud.google.com/gke-nodepool: windows-pool
+      tolerations:
+      - key: "node.kubernetes.io/os"
+        operator: "Equal"
+        value: "windows"
+        effect: "NoSchedule"
+      containers:
+      - name: front-end
+        envFrom:
+        - configMapRef:
+            name: agent-config
+        env:
+        - name: APPDYNAMICS.AGENT.ACCOUNTACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          value: test-application
+        - name: APPDYNAMICS_AGENT_TIER_NAME
+          value: iis
+        image: docker.io/iogbole/aspdotnet
+        imagePullPolicy: Always
+        volumeMounts:
+          #path to IIS logs, defaults to c:/ if drive letter not specified
+        - mountPath: /inetpub/logs/LogFiles
+          name: iis-logs-volume
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        - containerPort: 8081
+          protocol: TCP
+        resources: {}
+      - name: analytics-agent-windows
+        envFrom:
+        - configMapRef:
+            name: analytics-agent-config
+        env:
+        - name: APPDYNAMICS_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: APPDYNAMICS_AGENT_NAME
+          value: "environment|component|application"
+        image: docker.io/iogbole/appd_windows_analytics_agent:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /iis-logs
+          name: iis-logs-volume
+        ports:
+        - containerPort: 9090
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: iis-logs-volume
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iis
+  namespace: appdynamics
+spec:
+  selector:
+    name: iis
+   #type: loadBalancer
+  ports:
+  - name: "8081"
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
+  - name: "80"
+    port: 80
+    targetPort: 80
+    protocol: TCP
+status:
+  loadBalancer: {}

@@ -1,6 +1,0 @@
-buildName=951-master-Analytics-master
-buildHash=1140704f55674f9c776a24250e1e7cc968f94450
-buildTimestamp=2020-01-06T11:20:07+0000
-buildNumber=4.5.13.951
-jobName=Analytics-master
-version=4.5.13.951

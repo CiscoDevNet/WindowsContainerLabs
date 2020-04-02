@@ -25,7 +25,7 @@ spec:
       - name: analytics-agent-windows
         envFrom:
         - configMapRef:
-            name: agent-config
+            name: analytics-agent-config
         env:
         - name: APPDYNAMICS_ACCESS_KEY
           valueFrom:
@@ -37,7 +37,7 @@ spec:
         image: docker.io/iogbole/appd_windows_analytics_agent:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 9080
+        - containerPort: 9090
           protocol: TCP
         resources: {}
       dnsPolicy: ClusterFirst
@@ -55,7 +55,7 @@ spec:
   ports:
   - name: "9090"
     port: 9090
-    targetPort: 9080
+    targetPort: 9090
     protocol: TCP
 status:
   loadBalancer: {}
