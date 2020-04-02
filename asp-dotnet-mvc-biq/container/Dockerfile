@@ -28,19 +28,13 @@ ENV APPDYNAMICS_AGENT_APPLICATION_NAME=test-application \
     APPDYNAMICS.AGENT.ACCOUNTACCESSKEY=password \
     APPDYNAMICS.CONTROLLER.HOSTNAME=customer1.saas.appdynamics.com \
     APPDYNAMICS.CONTROLLER.PORT=443 \
-    APPDYNAMICS.CONTROLLER.SSL.ENABLED=true
-
-
-
-
-ENV APPDHOME="C:/ProgramData/AppDynamics/DotNetAgent"
+    APPDYNAMICS.CONTROLLER.SSL.ENABLED=true \
+    APPDHOME="C:/ProgramData/AppDynamics/DotNetAgent"
 
 RUN mkdir "C:/AppDynamics"
 COPY DotNetAgent/  "C:/AppDynamics/DotNetAgent/"
 
 WORKDIR C:/AppDynamics/DotNetAgent
-
-#RUN powershell -Command ./BootstrapAppD.ps1
 
 RUN "Get-ChildItem -File -Path dotNetAgentSetup64*.msi | Rename-Item -NewName dotNetAgentSetup64.msi";\
     Start-Process 'msiexec' -Wait -ArgumentList  '/i dotNetAgentSetup64.msi /q /norestart /lv AgentInstaller.log AD_SetupFile=C:/AppDynamics/DotNetAgent/config.xml'; \

@@ -12,7 +12,7 @@ ENV APPDYNAMICS_AGENT_NAME=environment|component|application \
     APPDYNAMICS_GLOBAL_ACCOUNT_NAME=customer1_guid \
     APPDYNAMICS_ACCESS_KEY=access_key \
     JAVA_HOME=c:/appdynamics/analytics-agent-bundle-64bit-windows/jre
-
+#if you require a proxy
 #APPDYNAMICS_PROXY_HOST
 #APPDYNAMICS_PROXY_PORT
 
