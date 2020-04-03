@@ -25,7 +25,7 @@ WORKDIR C:/AppDynamics/DotNetAgent
 
 RUN "Get-ChildItem -File -Path dotNetAgentSetup64*.msi | Rename-Item -NewName dotNetAgentSetup64.msi";\
     Start-Process 'msiexec' -Wait -ArgumentList  '/i dotNetAgentSetup64.msi /q /norestart /lv AgentInstaller.log AD_SetupFile=C:/AppDynamics/DotNetAgent/config.xml'; \
-    Start-Sleep -s 20
+    Start-Sleep -s 15
     
 # This steps below are super important for the .Net Agent to run successfully, including the sleep command.  
 # The purpise of the remov-item command is to make the image smaller. 

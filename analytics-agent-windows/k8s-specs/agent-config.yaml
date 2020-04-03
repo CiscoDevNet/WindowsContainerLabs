@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: analytics-agent-config
-  namespace: appdynamics
+  # namespace: appdynamics
 data:
   APPDYNAMICS_PROTOCOL: http
   APPDYNAMICS_CONTROLLER_HOST: "controller-4517nosshco-ixoarnbx.appd-cx.com"

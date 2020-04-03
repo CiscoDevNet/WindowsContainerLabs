@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aspdotnet-front-end
-  namespace: appdynamics
+  # namespace: appdynamics
 spec:
   selector:
     matchLabels:
@@ -51,7 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: front-end
-  namespace: appdynamics
+  # namespace: appdynamics
 spec:
   selector:
     name: front-end
