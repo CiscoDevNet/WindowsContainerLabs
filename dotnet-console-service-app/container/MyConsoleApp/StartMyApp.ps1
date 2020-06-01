@@ -3,7 +3,8 @@
 
 & "C:\AppDynamics\DotNetAgent\BootstrapAppD.ps1"
 
-# This will typically be the customer's custom point command.
+# This will typically be the customer's custom point command. Parse in $args if the service started with any args from k8s manifests
+
 Restart-Service IOServiceCheckerApp
 
 while (1) {

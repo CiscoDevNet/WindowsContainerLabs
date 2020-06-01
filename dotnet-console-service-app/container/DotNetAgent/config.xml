@@ -22,6 +22,10 @@
       </metrics>
       </machine-agent>
     <app-agents>
+    <profiler>
+        <!-- Enable runtime reinstrumentation -->
+        <runtime-reinstrumentation enabled="true" interval="60000"/>
+      </profiler>
       <IIS>
         <automatic enabled="true" />
     </IIS>

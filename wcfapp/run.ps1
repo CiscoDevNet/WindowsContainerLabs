@@ -8,8 +8,7 @@ docker run -d --env-file env.list.local  --rm --name myservice iogbole/wcf-conso
 
 docker ps 
 
-#ocker push  iogbole/wcf-console-service:latest
-
+#docker push  iogbole/wcf-console-service:latest
 
 docker build --pull -t iogbole/wcf-console-client:latest -f Dockerfile.client .
 

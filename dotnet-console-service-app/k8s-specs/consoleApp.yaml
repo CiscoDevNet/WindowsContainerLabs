@@ -36,6 +36,10 @@ spec:
           value: test-application
         - name: APPDYNAMICS_AGENT_TIER_NAME
           value: io-service-checker
+        - name: APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH
+          value: ConsoleAppService.exe
+        - name: APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED
+          value: true
         image: docker.io/iogbole/ioservicechecker:latest
         imagePullPolicy: Always
         ports:
