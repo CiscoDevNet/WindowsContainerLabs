@@ -15,6 +15,9 @@ spec:
     spec:
       nodeSelector:
         beta.kubernetes.io/os: windows
+        beta.kubernetes.io/os: windows
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
         #cloud.google.com/gke-nodepool: windows-pool
       tolerations:
       - key: "node.kubernetes.io/os"
@@ -57,7 +60,6 @@ metadata:
 spec:
   selector:
     name: resouce_checker
-   #type: loadBalancer
   ports:
   - name: "80"
     port: 80

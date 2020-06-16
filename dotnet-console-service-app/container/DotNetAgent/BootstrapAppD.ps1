@@ -11,7 +11,7 @@ $regex = "(.*account name=)(.*password=.*)\/>$"
 $account = "      <account name=""${env:APPDYNAMICS.AGENT.ACCOUNTNAME}"" password=""${env:APPDYNAMICS.AGENT.ACCOUNTACCESSKEY}"" />"
 
 $controllerRegex = "(<controller host=.*port=.*)"
-$replaceControllerDetails = " <controller host=""${env:APPDYNAMICS_CONTROLLER_HOSTNAME}"" port=""${env:APPDYNAMICS.CONTROLLER.PORT}"" ssl=""${env:APPDYNAMICS.CONTROLLER.SSL.ENABLED}""> "
+$replaceControllerDetails = " <controller host=""${env:APPDYNAMICS.CONTROLLER.HOSTNAME}"" port=""${env:APPDYNAMICS.CONTROLLER.PORT}"" ssl=""${env:APPDYNAMICS.CONTROLLER.SSL.ENABLED}""> "
 
 $standAloneExecRegex = "<standalone-application.*executable=.*>$"
 $replaceStandAloneExec = "<standalone-application executable=""${env:APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH}"">"
@@ -19,9 +19,8 @@ $replaceStandAloneExec = "<standalone-application executable=""${env:APPDYNAMICS
 $businessApplicationNameRegex = "<application.*name.*>$"
 $replaceBusinessApplicationName = "<application name=""${env:APPDYNAMICS_AGENT_APPLICATION_NAME}"" />"
 
-$runTimeInstrumentation = "${env:APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED}"
-$runtimeInstrumentationRegex = "<runtime-reinstrumentation.*enabled.*>$"
-$replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled=""$runTimeInstrumentation"" interval="60000"/>"
+$tierNameRegex = "<tier name=.*\/>$"
+$replaceTierName = "<tier name=""${env:APPDYNAMICS_AGENT_TIER_NAME}"" />"
 
 $InstalledAgentConfig = "C:\ProgramData\AppDynamics\DotNetAgent\Config\config.xml"
 $configFile = "C:\AppDynamics\DotNetAgent\config.xml"
@@ -41,9 +40,12 @@ if (!([string]::IsNullOrEmpty(${env:APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH}
     (Get-Content $configFile) | ForEach-Object { $_ -replace "$standAloneExecRegex" , "$replaceStandAloneExec" } | Set-Content $configFile
 }
 
-#these are not entirely neccessary as the env variables take precedence, but updating the config.xml helps with visual inspection of the file - during troubleshooting
+#these 3 are not entirely neccessary as the env variables take precedence, but updating the config.xml helps with visual inspection - during troubleshooting
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$controllerRegex" , "$replaceControllerDetails" } | Set-Content $configFile
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$businessApplicationNameRegex" , "$replaceBusinessApplicationName" } | Set-Content $configFile
+(Get-Content $configFile) | ForEach-Object { $_ -replace "$tierNameRegex" , "$replaceTierName" } | Set-Content $configFile
+
+$runTimeInstrumentation = "${env:APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED}"
 
 if (($runTimeInstrumentation -like "true") -or ($runTimeInstrumentation -like "false")) {
     $runTimeInstrumentation = $runTimeInstrumentation.ToLower()
@@ -52,6 +54,9 @@ if (($runTimeInstrumentation -like "true") -or ($runTimeInstrumentation -like "f
     $runTimeInstrumentation = "false"
 }
 
+$defaultInterval = 60000
+$runtimeInstrumentationRegex = "<runtime-reinstrumentation.*enabled.*>$"
+$replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled=""$runTimeInstrumentation"" interval=""$defaultInterval"" />"
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$runtimeInstrumentationRegex" , "$replaceRuntimeInstrumentation" } | Set-Content $configFile
 
 ########################################################

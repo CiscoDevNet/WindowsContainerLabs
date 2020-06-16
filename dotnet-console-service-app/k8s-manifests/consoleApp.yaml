@@ -15,6 +15,8 @@ spec:
     spec:
       nodeSelector:
         beta.kubernetes.io/os: windows
+        kubernetes.io/os: windows
+        kubernetes.io/arch: amd64
         #cloud.google.com/gke-nodepool: windows-pool
       #tolerations:
       #- key: "node.kubernetes.io/os"
@@ -37,31 +39,17 @@ spec:
         - name: APPDYNAMICS_AGENT_TIER_NAME
           value: io-service-checker
         - name: APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH
-          value: ConsoleAppService.exe
+          value: IOServiceCheckerApp.exe
         - name: APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED
           value: true
         image: docker.io/iogbole/ioservicechecker:latest
         imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-          protocol: TCP
-        resources: {}
+        resources:
+         limits:
+            memory: 500Mi
+            cpu: 1
+         requests:
+            memory: 300Mi
+            cpu: 0.6
       dnsPolicy: ClusterFirst
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: io-service-checker
-  # namespace: appdynamics
-spec:
-  selector:
-    name: io-service-checker
-   #type: NodePort
-  ports:
-  - name: "80"
-    port: 80
-    targetPort: 80
-    protocol: TCP
-status:
-  loadBalancer: {}

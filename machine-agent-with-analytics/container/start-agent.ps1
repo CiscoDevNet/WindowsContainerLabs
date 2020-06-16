@@ -1,4 +1,4 @@
-#Splatt the env variables 
+
 
 $MA_HOME = "c:\appdynamics\machineagent"
 
@@ -8,6 +8,7 @@ if ([string]::IsNullOrEmpty($APPDYNAMICS_ENABLE_ANALYTICS)){
    $APPDYNAMICS_ENABLE_ANALYTICS = "false"
 }
 
+#Splatt the env variables 
 $analytics_command_args = @{
     APPDYNAMICS_ANALYTICS_AGENT_NAME = "$env:APPDYNAMICS_ANALYTICS_AGENT_NAME"
     APPDYNAMICS_CONTROLLER_PROTOCOL = "$env:APPDYNAMICS_CONTROLLER_PROTOCOL"

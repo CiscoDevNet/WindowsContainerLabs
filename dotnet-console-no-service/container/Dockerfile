@@ -49,7 +49,8 @@ RUN Remove-Item dotNetAgentSetup64.msi ; `
     Stop-Service AppDynamics.Agent.Coordinator_service -Force; `
     Set-Service -Name AppDynamics.Agent.Coordinator_service -StartupType Manual; `
     Get-Service AppDynamics.Agent.Coordinator_service | Select-Object -Property Name, StartType, Status
-     
+
+WORKDIR C:/ProgramData/AppDynamics/DotNetAgent   
 ############################ END AppDynamics Section ############################
 
 COPY ENTRYPOINT.ps1 c:/ENTRYPOINT.ps1

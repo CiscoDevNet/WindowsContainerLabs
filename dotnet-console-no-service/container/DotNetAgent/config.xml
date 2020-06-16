@@ -24,17 +24,16 @@
     <app-agents>
       <profiler>
         <!-- Enable runtime reinstrumentation -->
-        <runtime-reinstrumentation enabled="true" interval="60000"/>
+        <runtime-reinstrumentation enabled="false" interval="60000"/>
       </profiler>
       <IIS>
         <automatic enabled="true" />
     </IIS>
       <standalone-applications>
-       <standalone-application executable="this value is read  from env variable: APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH">
+       <standalone-application executable="this value is read from env variable: APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH">
         <tier name="placholder-tier" />
      </standalone-application>
       </standalone-applications>
     </app-agents>
   </appdynamics-agent>
 </winston>
-
