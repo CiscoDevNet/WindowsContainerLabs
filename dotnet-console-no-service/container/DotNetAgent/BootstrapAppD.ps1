@@ -21,7 +21,7 @@ $replaceBusinessApplicationName = "<application name=""${env:APPDYNAMICS_AGENT_A
 
 $runTimeInstrumentation = "${env:APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED}"
 $runtimeInstrumentationRegex = "<runtime-reinstrumentation.*enabled.*>$"
-$replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled="$runTimeInstrumentation" interval="60000"/>"
+$replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled=""$runTimeInstrumentation"" interval=""60000""/>"
 
 $InstalledAgentConfig = "C:\ProgramData\AppDynamics\DotNetAgent\Config\config.xml"
 $configFile = "C:\AppDynamics\DotNetAgent\config.xml"

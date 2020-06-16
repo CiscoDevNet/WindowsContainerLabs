@@ -3,7 +3,6 @@
 & "C:\AppDynamics\DotNetAgent\BootstrapAppD.ps1"
 
 # Any args from K8s deployment can be read using the format below
-
 # This will typically be the customer's custom entry point command. with the Args from K8s deployment - if any 
 # Start-Process C:\resource-check\DockerOnWindows.ResourceCheck.Console.exe -ArgumentList "$args"
 
