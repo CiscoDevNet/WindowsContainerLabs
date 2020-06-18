@@ -1,6 +1,6 @@
 # AppD Bootstrapper peformances the following functions in sequence: 
 # 1. Update the config.xml file with the controller's account name and access key using values from K8s secrets and/or envs
-# 2. Copy APPDYNAMICS process-level environment variables to machine-level environments. The .Net agent can only read machine-level environment variables. 
+# 2. Copy APPDYNAMICS process-level environment variables to machine-level environments. The .Net agent. like other Windows Services, can only read machine-level environment variables. 
 # 3. Restart AppDynamics Cordinator Service 
 
 ######################################################
@@ -11,7 +11,7 @@ $regex = "(.*account name=)(.*password=.*)\/>$"
 $account = "      <account name=""${env:APPDYNAMICS.AGENT.ACCOUNTNAME}"" password=""${env:APPDYNAMICS.AGENT.ACCOUNTACCESSKEY}"" />"
 
 $controllerRegex = "(<controller host=.*port=.*)"
-$replaceControllerDetails = " <controller host=""${env:APPDYNAMICS_CONTROLLER_HOSTNAME}"" port=""${env:APPDYNAMICS.CONTROLLER.PORT}"" ssl=""${env:APPDYNAMICS.CONTROLLER.SSL.ENABLED}""> "
+$replaceControllerDetails = " <controller host=""${env:APPDYNAMICS.CONTROLLER.HOSTNAME}"" port=""${env:APPDYNAMICS.CONTROLLER.PORT}"" ssl=""${env:APPDYNAMICS.CONTROLLER.SSL.ENABLED}""> "
 
 $standAloneExecRegex = "<standalone-application.*executable=.*>$"
 $replaceStandAloneExec = "<standalone-application executable=""${env:APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH}"">"
@@ -23,9 +23,9 @@ $InstalledAgentConfig = "C:\ProgramData\AppDynamics\DotNetAgent\Config\config.xm
 $configFile = "C:\AppDynamics\DotNetAgent\config.xml"
 
 if (Test-Path $InstalledAgentConfig) {
- # The Agent has been installed, so update the config file with K8s env variables. 
- # This is done AtStart up of the container
-   $configFile = $InstalledAgentConfig
+    # The Agent has been installed, so update the config file with K8s env variables. 
+    # This is done AtStart up of the container
+    $configFile = $InstalledAgentConfig
 }
 
 #take a backup 
@@ -33,20 +33,46 @@ Copy-Item $configFile $configFile-backup
 #update the config.xml with new controller creds
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$regex" , "$account" } | Set-Content $configFile
 
-if (!([string]::IsNullOrEmpty(${env:APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH}))){
+if (!([string]::IsNullOrEmpty(${env:APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH}))) {
     (Get-Content $configFile) | ForEach-Object { $_ -replace "$standAloneExecRegex" , "$replaceStandAloneExec" } | Set-Content $configFile
 }
 
-#these are not entirely neccessary as the env variables take precedence, but updating the config.xml helps with visual inspection of the file - during troubleshooting
+if (!([string]::IsNullOrEmpty(${env:APPDYNAMICS_AGENT_TIER_NAME}))) {
+    $tierNameRegex = "<tier name=.*\/>$"
+    $replaceTierName = "<tier name=""${env:APPDYNAMICS_AGENT_TIER_NAME}"" />"
+    
+    (Get-Content $configFile) | ForEach-Object { $_ -replace "$tierNameRegex" , "$replaceTierName" } | Set-Content $configFile
+}
+
+$runTimeInstrumentation = "${env:APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED}"
+
+if (!([string]::IsNullOrEmpty($runTimeInstrumentation))) {
+    if (($runTimeInstrumentation -like "true") -or ($runTimeInstrumentation -like "false")) {
+        $runTimeInstrumentation = $runTimeInstrumentation.ToLower()
+    }
+    else {
+        Write-Host "Unexpected args was parsed, default value (false) will be used"
+        $runTimeInstrumentation = "false"
+    }
+
+    $defaultInterval = 60000
+    $runtimeInstrumentationRegex = "<runtime-reinstrumentation.*enabled.*>$"
+    $replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled=""$runTimeInstrumentation"" interval=""$defaultInterval"" />"
+    (Get-Content $configFile) | ForEach-Object { $_ -replace "$runtimeInstrumentationRegex" , "$replaceRuntimeInstrumentation" } | Set-Content $configFile
+
+}
+
+#these 2 are not entirely neccessary as the env variables take precedence, but updating the config.xml helps with visual inspection - during troubleshooting
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$controllerRegex" , "$replaceControllerDetails" } | Set-Content $configFile
 (Get-Content $configFile) | ForEach-Object { $_ -replace "$businessApplicationNameRegex" , "$replaceBusinessApplicationName" } | Set-Content $configFile
+
 
 ########################################################
 ##   Step 2. Copy Process Envs to Machine Envs         ##
 ########################################################
 
 # copy AppD process-level environment variables (from k8s env ) to machine level. The DotNet Agent can only Machine level variables
-foreach($key in [System.Environment]::GetEnvironmentVariables('Process').Keys | select-string -Pattern "APPDYNAMICS"  -CaseSensitive ) {
+foreach ($key in [System.Environment]::GetEnvironmentVariables('Process').Keys | Select-String -Pattern "APPDYNAMICS"  -CaseSensitive ) {
     # This is to prevent APPDYNAMICS.AGENT.ACCOUNTNAME and APPDYNAMICS.AGENT.ACCOUNTACCESSKEY from being visibile in the controller
     if (($key -notlike "APPDYNAMICS.AGENT.ACCOUNTACCESSKEY")) {
         $value = [System.Environment]::GetEnvironmentVariable($key, 'Process')

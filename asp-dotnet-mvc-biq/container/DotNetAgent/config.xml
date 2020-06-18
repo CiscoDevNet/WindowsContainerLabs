@@ -7,8 +7,8 @@
    <account name="IIS_IUSRS" displayName="ApplicationPool Identity" /> 
   </logFileFolderAccessPermissions>
   <appdynamics-agent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <controller host="customer.saas.appdynamics.com" port="443" ssl="true"> 
-      <application name="test-application" />
+    <controller host="placholder.do.not.change.saas.appdynamics.com" port="443" ssl="true"> 
+      <application name="placholder_dot_net" />
       <account name="account_name" password="access_key" />
     </controller>
     <machine-agent>
@@ -22,18 +22,20 @@
       </metrics>
       </machine-agent>
     <app-agents>
+      <profiler>
+        <!-- Enable runtime reinstrumentation -->
+        <runtime-reinstrumentation enabled="false" interval="60000"/>
+      </profiler>
       <IIS>
         <automatic enabled="true" />
     </IIS>
-      <standalone-applications>
-         <standalone-application executable="your_process_1.exe">
-            <tier name="your_process1" />
-         </standalone-application>
-         <standalone-application executable="your_process_2.exe">
-          <tier name="your_process2" />
-       </standalone-application>
+      <!-- 
+        <standalone-applications>
+       <standalone-application executable="this value is read from env variable: APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH">
+        <tier name="placholder-tier" />
+     </standalone-application>
       </standalone-applications>
+    -->
     </app-agents>
   </appdynamics-agent>
 </winston>
-
