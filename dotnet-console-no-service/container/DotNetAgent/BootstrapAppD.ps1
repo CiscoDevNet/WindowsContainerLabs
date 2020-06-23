@@ -55,7 +55,7 @@ if (!([string]::IsNullOrEmpty($runTimeInstrumentation))) {
         $runTimeInstrumentation = "false"
     }
 
-    $defaultInterval = 60000
+    $defaultInterval = 30000
     $runtimeInstrumentationRegex = "<runtime-reinstrumentation.*enabled.*>$"
     $replaceRuntimeInstrumentation = "<runtime-reinstrumentation enabled=""$runTimeInstrumentation"" interval=""$defaultInterval"" />"
     (Get-Content $configFile) | ForEach-Object { $_ -replace "$runtimeInstrumentationRegex" , "$replaceRuntimeInstrumentation" } | Set-Content $configFile
