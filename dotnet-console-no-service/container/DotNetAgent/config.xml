@@ -17,7 +17,7 @@
         https://docs.appdynamics.com/display/latest/.NET+Agent+Configuration+Properties#id-.NETAgentConfigurationProperties-MachineAgentElement 
       -->
       <process-monitor report-all-iis-processes="false"/>
-      <metrics max-metrics="300">
+      <metrics max-metrics="350">
         <perf-metrics priority-level="2" />
       </metrics>
       </machine-agent>
