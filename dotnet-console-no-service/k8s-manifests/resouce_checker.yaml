@@ -40,7 +40,7 @@ spec:
         - name: APPDYNAMICS_AGENT_TIER_NAME
           value: resouce_checker
         - name:  APPDYNAMICS.APPLICATION.EXECUTABLE.FULLPATH
-          value: "c:\app\trade.exe"
+          value: "c:\\app\\trade.exe"
         - name: APPDYNAMICS.AGENT.RUNTIME.REINSTRUMENTATION.ENABLED
           value: true
         image: docker.io/iogbole/console_resouce_checker:latest
