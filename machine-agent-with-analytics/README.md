@@ -38,11 +38,11 @@ Please refer to the env.list file to see the supported environment variables.
 
 You may use the Infra viz operator in the Kubernetes Cluster Agent to deploy this image as a daemonset to your Windows worker nodes. To do this, you would need to define the appropriate nodeSelectors and tolerations. In addition, you'd need to define the following environment variables in your Kubernetes manifest should you need to use any of it as the Infra viz operator does not set them:
 
-> APPDYNAMICS_AGENT_HTTPS_PROXY_PORT  
-> APPDYANMICS_AGENT_PROXY_PASSWORD_FILE  
-> APPDYNAMICS_AGENT_HTTPS_PROXY_PORT  
-> APPDYNAMICS_AGENT_HTTPS_PROXY_HOST
-> APPDYNAMICS_AGENT_UNIQUE_HOST_ID #defaults to containerID
-> APPDYNAMICS_DOTNET_COMPATIBILITY_MODE #defaults to true
-> APPDYNAMICS_ANALYTICS_AGENT_PORT #defaults to 9090  
+> APPDYNAMICS_AGENT_HTTPS_PROXY_PORT <br>
+> APPDYANMICS_AGENT_PROXY_PASSWORD_FILE <br>
+> APPDYNAMICS_AGENT_HTTPS_PROXY_PORT <br>
+> APPDYNAMICS_AGENT_HTTPS_PROXY_HOST <br>
+> APPDYNAMICS_AGENT_UNIQUE_HOST_ID #defaults to containerID  <br>
+> APPDYNAMICS_DOTNET_COMPATIBILITY_MODE #defaults to true  <br> 
+> APPDYNAMICS_ANALYTICS_AGENT_PORT #defaults to 9090   <br>
 > APPDYNAMICS_ENABLE_ANALYTICS_AGENT #defaults to true
