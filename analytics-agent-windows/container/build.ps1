@@ -18,7 +18,7 @@ Write-Host "dockerHubHandle = $dockerHubHandle "
 
 docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion . 
 
-docker run -d --env-file env.list.local ${IMAGE_NAME}:$agentVersion
+#docker run -d --env-file env.list.local ${IMAGE_NAME}:$agentVersion
 #docker push iogbole/windows_analytics_agent:$agentVersion
 #docker image inspect --format='' iogbole/windows_analytics_agent
 #docker exec -it container_id powershell 
