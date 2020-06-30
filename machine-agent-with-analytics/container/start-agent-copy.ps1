@@ -1,11 +1,6 @@
 
-if ([string]::IsNullOrEmpty(${env:APPDYNAMICS_MACHINE_AGENT_HOME})) {
-   $MA_HOME = "c:\appdynamics\machineagent"
-}else{
-   $MA_HOME = "${env:APPDYNAMICS_MACHINE_AGENT_HOME}"
-}
+$MA_HOME = "c:\appdynamics\machineagent"
 
-${env:APPDYNAMICS_MACHINE_AGENT_HOME}
 $APPDYNAMICS_ENABLE_ANALYTICS_AGENT = ${env:APPDYNAMICS_ENABLE_ANALYTICS_AGENT}
 
 #handle null for analytics settings 
@@ -123,6 +118,5 @@ Write-Host  $MA_PROPERTIES
 # Start Machine Agent
 Start-Process $MA_HOME/jre/bin/java -ArgumentList "$MA_PROPERTIES -jar $MA_HOME/machineagent.jar" 
 
-# this let you do 'k logs'
 Start-Sleep -s 20
 Get-Content -Path "$MA_HOME/logs/machine-agent.log" -Tail  10 -Wait
