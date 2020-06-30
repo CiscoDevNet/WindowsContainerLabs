@@ -11,8 +11,6 @@ LABEL name="AppDynamics Windows Infra Viz Agent" \
       summary="AppDynamics monitoring solution for Kuberenetes Windows worker nodes" \
       description="AppDynamics monitoring solution for Kuberenetes Windows worker nodes"
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; $verbosePreference='Continue';"]
-
 ENV APPDYNAMICS_MACHINE_AGENT_HOME=c:\\appdynamics\\machineagent
     
 RUN mkdir  "${env:APPDYNAMICS_MACHINE_AGENT_HOME}"
@@ -26,6 +24,9 @@ COPY machineagent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip  c:/appdynamic
 RUN "ls c:\appdynamics"
 
 RUN "Expand-Archive -Path c:/appdynamics/machineagent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -DestinationPath ${env:APPDYNAMICS_MACHINE_AGENT_HOME}"
+
+#clean up without prompt
+RUN "Remove-Item -Path c:/appdynamics/machineagent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -Force"
 
 WORKDIR "${APPDYNAMICS_MACHINE_AGENT_HOME}"
 
