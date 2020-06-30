@@ -6,19 +6,19 @@ Download the latest Windows 64Bit bundled Machine Agent from from the [AppDynami
 
   
 
-Note the agent version number (e.g 20.6.1) from the downloaded zip file.
+Note the agent version number (e.g `20.6.1`) from the downloaded zip file.
 
   
 
-Locate the build.ps1 script in the `container` folder
+Locate the `build.ps1` script in the `container` folder
 
   
 
-Run ./build.ps1 passing the version, as it appears in the name of the zip file, like this:
+Run `./build.ps1` passing the version, as it appears in the name of the zip file, like this:
 
   
 
-build.ps1 -agentVersion <version-number> -dockerHubHandle <docker-hub-name>
+`build.ps1 -agentVersion <version-number> -dockerHubHandle <docker-hub-name>`
 
 Where :
 
