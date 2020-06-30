@@ -21,8 +21,6 @@ COPY updateAnalyticsAgentConfig.ps1 c:/appdynamics/updateAnalyticsAgentConfig.ps
 
 COPY start-agent.ps1 c:/appdynamics/start-agent.ps1
 
-COPY start-agent-copy.ps1 c:/appdynamics/start-agent-copy.ps1
-
 COPY machineagent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip  c:/appdynamics
 
 RUN "ls c:\appdynamics"
