@@ -44,8 +44,6 @@ spec:
             secretKeyRef:
               key: appd-key
               name: appd-secret
-        securityContext:
-          privileged: true
         resources:
           limits:
             cpu: "0.6"
