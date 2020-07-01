@@ -29,14 +29,14 @@ spec:
         - configMapRef:
             name: analytics-agent-config
         env:
-        - name: APPDYNAMICS_ACCESS_KEY
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               key: appd-key
               name: appd-secret
-        - name: APPDYNAMICS_AGENT_NAME
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
           value: "environment|component|application"
-        image: docker.io/iogbole/appd_windows_analytics_agent:latest
+        image: iogbole/windows_analytics_agent:20.6.0
         imagePullPolicy: Always
         ports:
         - containerPort: 9090
