@@ -33,13 +33,13 @@ spec:
           name: windows-ma-log-config
       containers:
       - name: appd-windows-infra-agent
-        image:  iogbole/machine-agent-windows-64bit:20.5.1
+        image:  iogbole/machine-agent-windows-64bit:20.6.0
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: windows-ma-config
         env:
-        - name: APPDYNAMICS_ACCESS_KEY
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               key: appd-key
@@ -72,6 +72,6 @@ spec:
   ports:
   - name: "9090"
     port: 9090
-    targetPort: 9090 #use the same port as APPDYNAMICS_ANALYTICS_PORT
+    targetPort: 9090 
 status:
   loadBalancer: {}
