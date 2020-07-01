@@ -1,10 +1,8 @@
 **Build your own image**
 
-  
 
 Download the latest Windows 64Bit bundled Machine Agent from from the [AppDynamics Official Download Site](https://download.appdynamics.com/download/)
 
-  
 
 Note the agent version number (e.g `20.6.1`) from the downloaded zip file.
 
@@ -24,17 +22,11 @@ Where :
 
   
 
--  `version-number` is the agent version to be used for tagging. You
+-  `version-number` is the agent version to be used for tagging. You must tag the image.
 
-must tag the image.
+-  `docker-hub-handle` is the image reference, for example, if I want to push the image to my private dockerhub repo, I'd use `iogbole` as the `dockerHubHandle` in the build parameter.  This is an optional field and it defaults to `appdynamics`
 
--  `docker-hub-handle` is the image reference, for example, if I want to
-
-push the image to my private dockerhub repo, I'd add `iogbole`. This
-
-is an optional field and it defaults to `appdynamics`
-
-Please refer to the env.list file to see the supported environment variables.
+Please refer to the `env.list` file to see the supported environment variables.
 
 You may use the Infra viz operator in the Kubernetes Cluster Agent to deploy this image as a daemonset to your Windows worker nodes. To do this, you would need to define the appropriate nodeSelectors and tolerations. In addition, you'd need to define the following environment variables in your Kubernetes manifest should you need to use any of it as the Infra viz operator does not set them:
 

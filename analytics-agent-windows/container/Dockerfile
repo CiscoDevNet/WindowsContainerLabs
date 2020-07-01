@@ -2,19 +2,17 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; $verbosePreference='Continue';"]
+ARG APPD_AGENT_VERSION 
 
-ENV APPDYNAMICS_AGENT_NAME=environment|component|application \
-    APPDYNAMICS_PROTOCOL=https \ 
-    APPDYNAMICS_CONTROLLER_HOST=customer1.saas.appdynamics.com \
-    APPDYNAMICS_CONTROLLER_PORT=443 \ 
-    APPDYNAMICS_EVENTS_API_URL=https://fra-ana-api.saas.appdynamics.com:443 \
-    APPDYNAMICS_ACCOUNT_NAME=customer1\
-    APPDYNAMICS_GLOBAL_ACCOUNT_NAME=customer1_guid \
-    APPDYNAMICS_ACCESS_KEY=access_key \
-    JAVA_HOME=c:/appdynamics/analytics-agent-bundle-64bit-windows/jre
-#if you require a proxy
-#APPDYNAMICS_PROXY_HOST
-#APPDYNAMICS_PROXY_PORT
+LABEL name="AppDynamics Windows stand alone analytics agent" \
+      vendor="AppDynamics" \
+      version="${APPD_AGENT_VERSION}" \
+      release="1" \
+      url="https://www.appdynamics.com" \
+      summary="AppDynamics monitoring solution for logs and transaction analytics " \
+      description="AppDynamics monitoring solution for logs and transaction analytics"
+
+ENV JAVA_HOME=c:\\appdynamics\\analytics-agent-bundle-64bit-windows\\jre
 
 RUN mkdir c:/appdynamics
 
@@ -22,8 +20,13 @@ COPY updateAnalyticsAgentConfig.ps1 c:/appdynamics/updateAnalyticsAgentConfig.ps
 
 COPY start-agent.ps1 c:/appdynamics/start-agent.ps1
 
-COPY analytics-agent-bundle-64bit-windows/  c:/appdynamics/analytics-agent-bundle-64bit-windows
+COPY analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip  c:/appdynamics
+
+RUN "Expand-Archive -Path c:/appdynamics/analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -DestinationPath c:/appdynamics"
+
+#clean up without prompt
+RUN "Remove-Item -Path c:/appdynamics/analytics-agent-bundle-64bit-windows-${APPD_AGENT_VERSION}*.zip -Force"
 
 WORKDIR ${JAVA_HOME}
 
-ENTRYPOINT ["powershell","c:/appdynamics/start-agent.ps1"]
+ENTRYPOINT ["powershell","c:\\appdynamics\\start-agent.ps1"]
