@@ -1,7 +1,7 @@
 **Build your own image**
 
 
-Download the latest Windows 64Bit bundled Machine Agent from from the [AppDynamics Official Download Site](https://download.appdynamics.com/download/)
+Download the latest Windows 64Bit bundled standalone analytics agent from the [AppDynamics Official Download Site](https://download.appdynamics.com/download/)
 
 Note the agent version number (e.g `20.6.1`) from the downloaded zip file.
 
