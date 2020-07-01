@@ -16,9 +16,7 @@ Where :
 
 -  `version-number` is the agent version to be used for tagging. You must tag the image.
 
--  `docker-hub-handle` is the image reference, for example, if I want to push the image to my private dockerhub repo, I'd use `iogbole` as the `dockerHubHandle` in the build parameter.  This
-
-is an optional field and it defaults to `appdynamics`
+-  `docker-hub-handle` is the image reference, for example, if I want to push the image to my private dockerhub repo, I'd use `iogbole` as the `dockerHubHandle` in the build parameter.  This is an optional field and it defaults to `appdynamics`
 
 Please refer to the `env.list` file to see the supported environment variables. 
 
