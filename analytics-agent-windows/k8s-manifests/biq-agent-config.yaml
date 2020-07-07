@@ -4,7 +4,6 @@ metadata:
   name: analytics-agent-config
   namespace: appdynamics
 data:
-  APPDYNAMICS_PROTOCOL: http
   APPDYNAMICS_CONTROLLER_HOST_NAME: controller-4517nosshco-ixoarnbx.appd-cx.com
   APPDYNAMICS_CONTROLLER_PORT: "8090" 
   EVENT_ENDPOINT: "http://controller-4517nosshco-ixoarnbx.appd-cx.com:9080"
