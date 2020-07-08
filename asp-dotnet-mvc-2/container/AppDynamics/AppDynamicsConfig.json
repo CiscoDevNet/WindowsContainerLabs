@@ -1,16 +1,13 @@
 {
   "controller":
   {
-    "host": "training-2033nosshcont-6mihp1mk.appd-cx.com",
-    "port": 8090,
-    "account": "customer1",
-    "password": "5daa2655-9b30-4e8c-a24d-0ffa2b1e97e7",
-    "ssl": false
+    "host": "",
+    "port": 443,
+    "account": "",
+    "password": ""
   },
   "application": 
   {
-    "name": "test_application2",
-    "tier": "aspnetapp ",
-    "node": "node1"
+    "name": "aspnet_app"
   }
 }
