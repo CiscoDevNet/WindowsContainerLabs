@@ -25,3 +25,6 @@ Since this image only applies to Windows Container, you  would need to define th
 `docker run -it <image-name> pwd -c "ls c:\appdynamics\java-agent"`
 
 Expected output 
+
+![Screenshot 2020-07-15 at 20 34 17](https://user-images.githubusercontent.com/2548160/87588152-11faad80-c6db-11ea-94cd-b599e12e4080.png)
+
