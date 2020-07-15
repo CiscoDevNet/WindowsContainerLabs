@@ -22,7 +22,7 @@ Since this image only applies to Windows Container, you  would need to define th
 
 ## Test the Image
 
-`docker run -it <image-name> pwd -c "ls c:\appdynamics\java-agent"`
+`docker run -it <image-name> pwsh -c "ls c:\appdynamics\java-agent"`
 
 Expected output 
 
