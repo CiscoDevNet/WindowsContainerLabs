@@ -73,10 +73,6 @@ else {
 if (![string]::IsNullOrEmpty(${env:APPDYNAMICS_AGENT_UNIQUE_HOST_ID})) {
    $MA_PROPERTIES += " -Dappdynamics.agent.uniqueHostId=${env:APPDYNAMICS_AGENT_UNIQUE_HOST_ID}" 
 }
-else {
-   # use the node's pet name instead of the pod name as it makes easier to locate
-   $MA_PROPERTIES += " -Dappdynamics.agent.uniqueHostId=${env:computername}" 
-}
 
 if (![string]::IsNullOrEmpty(${env:APPDYNAMICS_MACHINE_HIERARCHY_PATH})) {
    $MA_PROPERTIES += " -Dappdynamics.machine.agent.hierarchyPath=${env:APPDYNAMICS_MACHINE_HIERARCHY_PATH}"
