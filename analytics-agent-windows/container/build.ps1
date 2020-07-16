@@ -11,12 +11,12 @@ if ($dockerHubHandle -eq "") {
     $dockerHubHandle = "appdynamics"
  }
 #$IMAGE_NAME = "iogbole/machine-agent-windows-64bit"
-$IMAGE_NAME = "$dockerHubHandle/windows_analytics_agent"
+$IMAGE_NAME = "$dockerHubHandle/analytics-agent"
 
 Write-Host "version = $agentVersion "
 Write-Host "dockerHubHandle = $dockerHubHandle "
 
-docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion . 
+docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion-win . 
 
 #docker run -d --env-file env.list.local ${IMAGE_NAME}:$agentVersion
 #docker push iogbole/windows_analytics_agent:$agentVersion

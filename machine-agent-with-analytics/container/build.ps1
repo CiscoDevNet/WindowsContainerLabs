@@ -4,19 +4,28 @@ Param (
     [string]$agentVersion,
 
     [Parameter(Mandatory = $false)]
-    [string]$dockerHubHandle
+    [string]$dockerHubHandle,
+
+    [Parameter(Mandatory = $false)]
+    [string]$winTag
 )
 
 if ($dockerHubHandle -eq "") {
     $dockerHubHandle = "appdynamics"
  }
-#$IMAGE_NAME = "iogbole/machine-agent-windows-64bit"
-$IMAGE_NAME = "$dockerHubHandle/machine-agent-windows-64bit"
+
+if ($winTag -eq "") {
+    $winTag = "win-ltsc2019"
+ }
+
+$IMAGE_NAME = "$dockerHubHandle/machine-agent-analytics"
 
 Write-Host "version = $agentVersion "
 Write-Host "dockerHubHandle = $dockerHubHandle "
+Write-Host "winTag = $winTag "
 
-docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion . 
+docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion-$winTag . 
+ 
 
 #docker run -d --env-file env.list.local ${IMAGE_NAME}:$agentVersion
 #docker push iogbole/machine-agent-windows-64bit:$agentVersion
