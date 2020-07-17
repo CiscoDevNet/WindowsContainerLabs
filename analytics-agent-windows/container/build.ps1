@@ -15,7 +15,7 @@ if ($dockerHubHandle -eq "") {
  }
 
 if ($winTag -eq "") {
-    $winTag = "win-nano1809"
+    $winTag = "win-nano"
  }
 
 $IMAGE_NAME = "$dockerHubHandle/analytics-agent"
