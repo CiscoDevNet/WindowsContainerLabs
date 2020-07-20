@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: load-generator
+  name: load-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-generator
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: load-generator
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+      - image: docker.io/iogbole/load-generator
+        name: load-generator
+        resources: {}
+status: {}

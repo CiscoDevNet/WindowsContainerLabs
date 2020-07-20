@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: windows-client-api
+  name: windows-client-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: windows-client-api
+  template:
+    metadata:
+      labels:
+        name: windows-client-api
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: java-agent-config
+        env:
+        - name: APPDYNAMICS_AGENT_APPLICATION_NAME
+          value: winContainer-Demo
+        - name: APPDYNAMICS_AGENT_TIER_NAME
+          value: Web
+        - name: APPDYNAMICS_AGENT_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
+        - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: appd-key
+              name: appd-secret
+        - name: JAVA_TOOL_OPTIONS2
+          value: ' -Dappdynamics.agent.accountAccessKey=$(APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY)
+            -Dappdynamics.controller.hostName=$(APPDYNAMICS_CONTROLLER_HOST_NAME)
+            -Dappdynamics.controller.port=$(APPDYNAMICS_CONTROLLER_PORT) -Dappdynamics.controller.ssl.enabled=$(APPDYNAMICS_CONTROLLER_SSL_ENABLED)
+            -Dappdynamics.agent.accountName=$(APPDYNAMICS_AGENT_ACCOUNT_NAME) -Dappdynamics.agent.applicationName=$(APPDYNAMICS_AGENT_APPLICATION_NAME)
+            -Dappdynamics.agent.tierName=$(APPDYNAMICS_AGENT_TIER_NAME) -Dappdynamics.agent.reuse.nodeName=true
+            -Dappdynamics.agent.reuse.nodeName.prefix=$(APPDYNAMICS_AGENT_REUSE_NODE_NAME_PREFIX)  -Dappdynamics.agent.nodeName=$(APPDYNAMICS_AGENT_NODE_NAME) '
+        image: iogbole/springboot-javademo-app:win
+        imagePullPolicy: Always
+        name: windows-client-api
+        command: ["powershell", "-c", "java -javaagent:c:\\appd\\javaagent.jar -jar c:\\demo-app.war $(JAVA_TOOL_OPTIONS2)"] 
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - mountPath: c:/appd
+          name: appd-agent-repo-java
+      dnsPolicy: ClusterFirst
+      initContainers:
+      #- command: ["xcopy", "c:/appdynamics/java-agent c:/appdynamics -e /i /h" ]
+      - command: ["pwsh", "-command", "Copy-Item -Path C:/appdynamics/java-agent/* -Destination c:/javagent -Recurse && ls c:/javagent"]
+        image: iogbole/java-agent:20.6.0-win
+        imagePullPolicy: Always
+        name: appd-agent-attach
+        terminationMessagePath: c:/dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: c:/javagent
+          name: appd-agent-repo-java
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      volumes:
+      - emptyDir: {}
+        name: appd-agent-repo-java
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: windows-client-api
+spec:
+  selector:
+    name: windows-client-api
+  ports:
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  type: NodePort
+status:
+  loadBalancer: {}

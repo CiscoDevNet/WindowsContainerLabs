@@ -6,39 +6,32 @@ metadata:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata: 
-  name: appd-windows-infra-agent
+  name: appd-infra-agent-windows
 spec: 
   selector:
     matchLabels:
-      name: appd-windows-infra-agent
+      name: appd-infra-agent-windows
   template: 
     metadata: 
       labels: 
-        name: appd-windows-infra-agent
+        name: appd-infra-agent-windows
     spec:
       nodeSelector:
-        #beta.kubernetes.io/os: windows
         kubernetes.io/os: windows
         kubernetes.io/arch: amd64
-        #cloud.google.com/gke-nodepool: windows-pool
-      #tolerations:
-      # - key: "node.kubernetes.io/os"
-      #   operator: "Equal"
-      #   value: "windows"
-      #   effect: "NoSchedule"
       serviceAccountName: appdynamics-infraviz
-      volumes:
-      - name: windows-ma-log-config
-        configMap:
-          name: windows-ma-log-config
       containers:
       - name: appd-windows-infra-agent
-        image:  iogbole/machine-agent-windows-64bit:20.6.0
-        imagePullPolicy: IfNotPresent
+        image:  appdynamics/machine-agent-analytics:20.6.0-win-ltsc2019
+        imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name: windows-ma-config
+            name: ma-config
         env:
+        - name:  APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
         - name: APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY
           valueFrom:
             secretKeyRef:
@@ -53,20 +46,15 @@ spec:
             memory: "1G"
         ports:
           - containerPort: 9090
-       # Windows doesn't allow file mount at this time, only directories can be mounted. 
-       # volumeMounts:
-       # - name: windows-ma-log-config
-       #   mountPath: \appdynamics\machineagent\conf\logging\log4j.xml
-       #   subPath: log4j.xml  
       restartPolicy: Always   
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: appd-windows-infra-agent-service
+  name: appd-infra-agent-service-windows
 spec:
   selector:
-    name: appd-windows-infra-agent
+    name: appd-infra-agent-windows
   ports:
   - name: "9090"
     port: 9090
