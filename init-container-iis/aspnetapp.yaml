@@ -46,11 +46,17 @@ spec:
                  name: appd-secret
                  key: appd-key
         - name: APPDYNAMICS.AGENT.APPLICATIONNAME
-          value: aspdotnet_app
+          value: winContainer-Demo
         - name:  APPDYNAMICS_AGENT_TIER_NAME
           value: frontend
         - name: APPDYNAMICS_AGENT_NODE_NAME
-          value: node1
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
         envFrom:
           - configMapRef:
               name: micro-dotnet-agent-config

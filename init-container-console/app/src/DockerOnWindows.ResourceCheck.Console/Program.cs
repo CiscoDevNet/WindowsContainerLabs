@@ -18,12 +18,13 @@ namespace DockerOnWindows.ResourceCheck.Console
             {
                 case Resource.Memory:
                     hog = new MemoryResourceHog(commandLine.Parameter);
-                    Thread.Sleep(5000);
+                    Thread.Sleep(20000);
                     System.Console.WriteLine("In memory");
                     WriteToFile();
                     RequestSubmitter("http://front-end");
                     Checker("http://www.example.com");
-                    Checker("https://io.is.me");
+                    Checker("http://windows-client-api:8080/supplier");
+                    Thread.Sleep(10000);
                     break;
 
                 case Resource.Cpu:
@@ -33,11 +34,10 @@ namespace DockerOnWindows.ResourceCheck.Console
                     WriteToFile();
                     RequestSubmitter("http://front-end");
                     Checker("http://www.example.com");
-                    Checker("https://io.is.me");
+                    Checker("http://windows-client-api:8080");
                     break;
             }
             hog.Go();
-
 
         }
         public static void WriteToFile()

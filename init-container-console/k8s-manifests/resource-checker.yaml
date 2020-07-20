@@ -34,7 +34,7 @@ spec:
         ports:
         - name: http
           containerPort: 80
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         volumeMounts:
           - mountPath: "c:/appdynamics/dotnet-agent"
             name: appd-dotnet-agent
@@ -49,8 +49,20 @@ spec:
           value: aspdotnet_app
         - name:  APPDYNAMICS_AGENT_TIER_NAME
           value: resource-checker
+        ##### PLEASE READ #########
+        # It is recommended to hard code the value of APPDYNAMICS_AGENT_NODE_NAME env if the instrumented (.exe)
+        # app is designed and expected to always have 1 replica. For example, <tier_name>_1. 
+        # If the instrumented application scales to > 1 replicas, it is recommended to pass a dynamic node using 
+        # the pod or container information as show below. Please refer to this doc for further detail. 
+        # https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/
         - name: APPDYNAMICS_AGENT_NODE_NAME
-          value: resource1
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: APPDYNAMICS_AGENT_UNIQUE_HOST_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName  
         envFrom:
           - configMapRef:
               name: micro-dotnet-agent-config
