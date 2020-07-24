@@ -35,8 +35,8 @@ else {
     $analytics_path = "c:/appdynamics/analytics-agent-bundle-64bit-windows"
     Start-Process $analytics_path/jre/bin/java -ArgumentList "-jar $analytics_path/bin/tool/tool-executor.jar start" 
 
-    # Make logs available in docker  logs when it's up, takes about 10 -15 seconds if everything is OK 
-    Start-Sleep -s 30
+    # Make logs available in docker  logs when it's up, takes about 10 - 45 seconds if everything is OK 
+    Start-Sleep -s 60
     while (!(Test-Path "$analytics_path/logs/analytics-agent.log")) { 
         $counter++
         Write-Host "Analytics agent is not up yet, there might be an issue. Please note that it requires a minimum of 1GB heap space to start. Please contact support@appadynamics.com if the issue persists". 
