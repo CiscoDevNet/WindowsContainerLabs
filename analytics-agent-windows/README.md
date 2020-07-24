@@ -1,10 +1,9 @@
 **Build your own image**
 
 
-Download the latest Windows 64Bit bundled standalone analytics agent from the [AppDynamics Official Download Site](https://download.appdynamics.com/download/)
+Download the latest Windows 64Bit bundled standalone analytics agent from the [AppDynamics Official Download Site](https://download.appdynamics.com/download/). 
 
-Note the agent version number (e.g `20.6.1`) from the downloaded zip file.
-
+Toss the downloaded zip file into `container` folder and note the agent version number (e.g `20.6.1`) from the downloaded zip file.
 
 Locate the `build.ps1` script in the `container` folder
 
