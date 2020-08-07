@@ -28,7 +28,7 @@ RUN "ls c:\appdynamics"
 RUN "ls c:\appdynamics\dbagent"
 
 #clean up without prompt
-#RUN "Remove-Item -Path c:/appdynamics/db-agent-64bit-windows-${APPDYNAMICS_AGENT_VERSION}*.zip -Force"
+RUN "Remove-Item -Path ${APPDYNAMICS_DB_AGENT_HOME}/db-agent-64bit-windows-${APPDYNAMICS_AGENT_VERSION}*.zip -Force"
 
 WORKDIR "${APPDYNAMICS_DB_AGENT_HOME}"
 

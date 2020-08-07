@@ -4,12 +4,19 @@ Param (
     [string]$agentVersion,
 
     [Parameter(Mandatory = $false)]
-    [string]$dockerHubHandle
+    [string]$dockerHubHandle,
+
+    [Parameter(Mandatory = $false)]
+    [string]$winTag
 )
 
 if ($dockerHubHandle -eq "") {
     $dockerHubHandle = "appdynamics"
 }
+
+if ($winTag -eq "") {
+    $winTag = "win-nano"
+ }
 
 $imageName = "$dockerHubHandle/db-agent"
 
@@ -17,12 +24,12 @@ Write-Host "version = $agentVersion "
 Write-Host "dockerHubHandle = $dockerHubHandle "
 
 # Build
-docker build --no-cache --build-arg APPDYNAMICS_AGENT_VERSION=$agentVersion -t ${imageName}:$agentVersion . 
+docker build --no-cache --build-arg APPDYNAMICS_AGENT_VERSION=$agentVersion -t ${imageName}:$agentVersion-$winTag . 
 
 # Run (with env)
 docker run -d --env-file env.list.local ${imageName}:$agentVersion
 # Push
-docker push ${imageName}:$agentVersion
+#docker push ${imageName}:$agentVersion
 
 # docker image inspect --format='' alexappd/db-agent:20.5.1
 # docker exec -it container_id powershell 
