@@ -1,5 +1,5 @@
 
-FROM mcr.microsoft.com/powershell:lts-nanoserver-1809
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; $verbosePreference='Continue';"]
 ARG APPDYNAMICS_AGENT_VERSION 
