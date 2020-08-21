@@ -17,7 +17,7 @@ spec:
       serviceAccountName: appdynamics-db-sa
       containers:
       - name: appd-windows-db-agent
-        image:  alexappd/db-agent:20.7.0.1892-win-core
+        image:  alexappd/db-agent:20.7.0.1892-win-nano
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
