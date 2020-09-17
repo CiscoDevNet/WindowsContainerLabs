@@ -23,7 +23,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name:  micro-dotnet-agent
-          image: iogbole/micro-dotnet-agent:20.6
+          image: appdynamics/dotnet-agent:20.6.0-micro
           command: ["pwsh", "-command", "copy-item -path c:/appdynamics/dotnet-agent/* -destination c:/appd-dotnet-agent -Recurse"]
           volumeMounts:
           - mountPath: "c:/appd-dotnet-agent"
