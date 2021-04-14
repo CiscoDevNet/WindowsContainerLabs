@@ -22,4 +22,3 @@ Since this image only applies to Windows Container, you  would need to define th
 
 The output should should contain a list of some dll files and json file. 
 
-s
