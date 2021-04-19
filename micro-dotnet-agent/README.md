@@ -1,8 +1,8 @@
 **Build your own image**
 
-Download the latest .Net Micro Agent distribution from [nuget.org](https://www.nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/)
+Get the latest .Net Micro Agent version from [nuget.org](https://www.nuget.org/packages/AppDynamics.Agent.Distrib.Micro.Windows/)
 
-Toss the downloaded file as is into this folder, note the agent version number (e.g `20.6.0`) of the nupkg file.  
+Note the agent version number (e.g `20.6.0`)
 
 Locate the `build.ps1` in the folder and run `./build.ps1` passing the version, as it appears in the name of the nupkg file, like this:
 
