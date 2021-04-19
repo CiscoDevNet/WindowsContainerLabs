@@ -13,10 +13,16 @@ if ($dockerHubHandle -eq "") {
 #$IMAGE_NAME = "iogbole/machine-agent-windows-64bit"
 $IMAGE_NAME = "$dockerHubHandle/micro-dotnet-agent"
 
+#Downloading the nuget package from public repo
+wget https://www.nuget.org/api/v2/package/AppDynamics.Agent.Distrib.Micro.Windows/$agentVersion -outfile "appdynamics.agent.distrib.micro.windows.$agentVersion.nupkg"
+
 Write-Host "version = $agentVersion "
 Write-Host "dockerHubHandle = $dockerHubHandle "
 
 docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion . 
+
+#Remove nuget package
+Remove-Item -Path .\*.nupkg -Force
 
 #docker run -d --env-file env.list.local ${IMAGE_NAME}:$agentVersion
 #docker push iogbole/windows_analytics_agent:$agentVersion
