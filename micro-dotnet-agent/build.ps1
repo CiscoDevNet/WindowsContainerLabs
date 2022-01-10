@@ -10,6 +10,11 @@ Param (
 if ($dockerHubHandle -eq "") {
     $dockerHubHandle = "appdynamics"
  }
+ 
+if ($winTag -eq "") {
+    $winTag = "win-nano"
+ }
+ 
 #$IMAGE_NAME = "iogbole/machine-agent-windows-64bit"
 $IMAGE_NAME = "$dockerHubHandle/micro-dotnet-agent"
 
@@ -19,7 +24,7 @@ wget https://www.nuget.org/api/v2/package/AppDynamics.Agent.Distrib.Micro.Window
 Write-Host "version = $agentVersion "
 Write-Host "dockerHubHandle = $dockerHubHandle "
 
-docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion . 
+docker build --no-cache --build-arg APPD_AGENT_VERSION=$agentVersion -t ${IMAGE_NAME}:$agentVersion--$winTag . 
 
 #Remove nuget package
 Remove-Item -Path .\*.nupkg -Force
